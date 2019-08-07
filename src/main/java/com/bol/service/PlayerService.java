@@ -13,6 +13,11 @@ public class PlayerService {
     @Autowired
     PitService pitService;
 
+    /**
+     * Initialising Player
+     *
+     * @return Player
+     */
     public Player initPlayer() {
         List<Pit> pits = pitService.initPits();
         Player player = new Player(pits);
