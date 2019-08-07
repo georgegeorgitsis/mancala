@@ -31,16 +31,31 @@ public class PitService {
         return pits;
     }
 
+    /**
+     *
+     * @param pit
+     */
     public void emptyPit(Pit pit) {
         pit.emptyStones();
     }
 
+    /**
+     *
+     * @param pit
+     * @return
+     */
     public int addStone(Pit pit) {
         pit.addStone();
 
         return pit.getStones();
     }
 
+    /**
+     *
+     * @param pit
+     * @param stones
+     * @return
+     */
     public int addStones(Pit pit, int stones) {
         pit.addStones(stones);
 
