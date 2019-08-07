@@ -35,15 +35,17 @@ public class Board {
         return (this.getTurn() == 1) ? this.getPlayer1() : this.getPlayer2();
     }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
+    public void changeTurn() {
+        this.turn = (this.turn == 1) ? 2 : 1;
     }
 
     public void _toString() {
+        System.out.println(" ");
+        System.out.println("------------- ------------- -------------");
         System.out.println("Player 1");
 
         for (Pit pit : this.getPlayer1().getRegularPits()) {
-            System.out.print("Pit " + pit.getPosition() + ": " + pit.getStones() + " stones | ");
+            pit._toString();
         }
         System.out.print(" -> Big Pit: " + this.getPlayer1().getBigPit().getStones());
 
@@ -52,9 +54,9 @@ public class Board {
 
         System.out.println("Player 2");
         for (Pit pit : this.getPlayer2().getRegularPits()) {
-            System.out.print("Pit " + pit.getPosition() + ": " + pit.getStones() + " stones | ");
+            pit._toString();
         }
         System.out.println(" -> Big Pit: " + this.getPlayer2().getBigPit().getStones());
-        System.out.println("-------------");
+        System.out.println(" ");
     }
 }

@@ -30,4 +30,20 @@ public class PitService {
 
         return pits;
     }
+
+    public void emptyPit(Pit pit) {
+        pit.emptyStones();
+    }
+
+    public int addStone(Pit pit) {
+        pit.addStone();
+
+        return pit.getStones();
+    }
+
+    public int addStones(Pit pit, int stones) {
+        pit.addStones(stones);
+
+        return pit.getStones();
+    }
 }

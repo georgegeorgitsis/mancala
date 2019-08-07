@@ -24,4 +24,28 @@ public class PlayerService {
 
         return player;
     }
+
+    /**
+     * @param player
+     */
+    public int sumStones(Player player) {
+        int stonesToBigPit = 0;
+        for (Pit pit : player.getRegularPits()) {
+            stonesToBigPit += pit.getStones();
+        }
+
+        return addStonesToBigPit(player, stonesToBigPit);
+    }
+
+    /**
+     * @param player
+     * @param stonesToAdd
+     * @return
+     */
+    public int addStonesToBigPit(Player player, int stonesToAdd) {
+        Pit bigPit = player.getBigPit();
+        bigPit.addStones(stonesToAdd);
+
+        return bigPit.getStones();
+    }
 }

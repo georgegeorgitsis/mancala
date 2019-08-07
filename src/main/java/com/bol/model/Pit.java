@@ -21,6 +21,22 @@ public class Pit {
         return stones;
     }
 
+    public void setStones(int stones) {
+        this.stones = stones;
+    }
+
+    public void addStones(int stones) {
+        this.stones += stones;
+    }
+
+    public void addStone() {
+        this.stones++;
+    }
+
+    public void emptyStones() {
+        this.stones = 0;
+    }
+
     public int getType() {
         return type;
     }
@@ -35,5 +51,9 @@ public class Pit {
 
     public boolean isRegular() {
         return this.getType() == this.getRegularPitType();
+    }
+
+    public void _toString() {
+        System.out.print("Pit " + this.getPosition() + ": " + this.getStones() + " stones | ");
     }
 }

@@ -32,13 +32,15 @@ public class Application implements CommandLineRunner {
         while (!boardService.gameIsFinished(board)) {
             board._toString();
 
-            int selectedPit = scannerService.getPlayersInput(scanner, board);
+            int selectedPitNumber = scannerService.getPlayersInput(scanner, board);
 
             try {
-                boardService.moveStones(board, selectedPit);
+                boardService.handleTurn(board, selectedPitNumber);
             } catch (NoStonesToMoveException e) {
                 System.out.println(e.toString());
             }
         }
+
+        boardService.printResults(board);
     }
 }

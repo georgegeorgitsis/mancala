@@ -15,16 +15,18 @@ public class ScannerService {
     GameConfiguration gameConfiguration;
 
     public int getPlayersInput(Scanner in, Board board) {
+        System.out.println(" ");
         System.out.println("Player " + board.getTurn() + " is playing");
+        System.out.println(" ");
 
         boolean correct = false;
         int val = 0;
 
         while (!correct) {
             try {
-                System.out.println("Select pit number between: " + gameConfiguration.getFirstPitPosition() + " and: " + gameConfiguration.getLastPitPosition());
+                System.out.println("Select pit number between: " + gameConfiguration.getFirstPitPosition() + " - " + gameConfiguration.getLastPitPosition());
                 val = in.nextInt();
-                if (val >= 0 && val < 5) {
+                if (val >= gameConfiguration.getFirstPitPosition() && val <= gameConfiguration.getLastPitPosition()) {
                     correct = true;
                 } else {
                     throw new InputMismatchException();
