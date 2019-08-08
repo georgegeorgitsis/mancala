@@ -5,7 +5,9 @@ by: George Georgitsis (georgegeorgitsis@gmail.com)
 ## Getting started
 
 ### Introduction
-This bol.com game is a terminal board game. 
+This application is a terminal board game using `Java`. 
+It was assigned to me as a tech assessment for bol.com.
+
 
 ### Installation
 
