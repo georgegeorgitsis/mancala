@@ -1,4 +1,4 @@
-package com.bol.exception;
+package com.bol.exceptions;
 
 public class NoStonesToMoveException extends Exception {
     public NoStonesToMoveException(String message) {

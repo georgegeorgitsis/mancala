@@ -1,7 +1,7 @@
-package com.bol.service;
+package com.bol.services;
 
-import com.bol.model.Pit;
-import com.bol.model.Player;
+import com.bol.models.Pit;
+import com.bol.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

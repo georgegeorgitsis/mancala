@@ -1,4 +1,4 @@
-package com.bol.model;
+package com.bol.models;
 
 public class Pit {
     private int position;
@@ -54,6 +54,6 @@ public class Pit {
     }
 
     public void _toString() {
-        System.out.print("Pit " + this.getPosition() + ": " + this.getStones() + " stones | ");
+        System.out.print("Pit." + this.getPosition() + ": " + this.getStones() + " stones | ");
     }
 }

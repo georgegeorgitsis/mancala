@@ -1,9 +1,9 @@
 package com.bol;
 
-import com.bol.exception.NoStonesToMoveException;
-import com.bol.model.Board;
-import com.bol.service.BoardService;
-import com.bol.service.ScannerService;
+import com.bol.exceptions.NoStonesToMoveException;
+import com.bol.models.Board;
+import com.bol.services.BoardService;
+import com.bol.services.ScannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package com.bol.model;
+package com.bol.models;
 
 public class Board {
     private Player player1;
@@ -50,7 +50,7 @@ public class Board {
         System.out.print(" -> Big Pit: " + this.getPlayer1().getBigPit().getStones());
 
         System.out.println(" ");
-        System.out.println("- ");
+        System.out.println(" ");
 
         System.out.println("Player 2");
         for (Pit pit : this.getPlayer2().getRegularPits()) {

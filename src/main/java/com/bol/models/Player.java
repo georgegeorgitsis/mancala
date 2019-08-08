@@ -1,4 +1,4 @@
-package com.bol.model;
+package com.bol.models;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,10 +12,6 @@ public class Player {
 
     public List<Pit> getPits() {
         return pits;
-    }
-
-    public void setPits(List<Pit> pits) {
-        this.pits = pits;
     }
 
     public List<Pit> getRegularPits() {

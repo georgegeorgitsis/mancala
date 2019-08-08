@@ -1,9 +1,10 @@
-package com.bol.service;
+package com.bol.services;
 
-import com.bol.exception.NoStonesToMoveException;
-import com.bol.model.Board;
-import com.bol.model.Pit;
-import com.bol.model.Player;
+import com.bol.configs.GameConfiguration;
+import com.bol.exceptions.NoStonesToMoveException;
+import com.bol.models.Board;
+import com.bol.models.Pit;
+import com.bol.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,9 @@ import java.util.stream.Stream;
 
 @Service
 public class BoardService {
+
+    @Autowired
+    GameConfiguration gameConfiguration;
 
     @Autowired
     PlayerService playerService;
@@ -128,9 +132,10 @@ public class BoardService {
                 (board.getTurnsPlayer() == board.getPlayer2() && finalPitIndex > 5)) {
             if (lastPit.getType() == Pit.getRegularPitType() && lastPit.getStones() == 1) { //if it was last stone
 
-                //for player1 opponent's index is +7 because of own big pit
                 //for player2 opponent's index is -6 because player's 1 big pit is missing
-                opponentsIndex = (board.getTurnsPlayer() == board.getPlayer1()) ? finalPitIndex + 7 : finalPitIndex - 6;
+                opponentsIndex = (board.getTurnsPlayer() == board.getPlayer1()) ?
+                        finalPitIndex + (gameConfiguration.getNumberOfPits() + 1) :
+                        finalPitIndex - gameConfiguration.getNumberOfPits();
 
                 handleLastStoneCapture(allBoardPits, board.getTurnsPlayer(), finalPitIndex, opponentsIndex);
             }
@@ -155,7 +160,6 @@ public class BoardService {
     }
 
     /**
-     *
      * @param board
      */
     public void printResults(Board board) {
@@ -175,10 +179,6 @@ public class BoardService {
         int player1Stones = playerService.sumStones(board.getPlayer1());
         int player2Stones = playerService.sumStones(board.getPlayer2());
 
-        if (player1Stones >= player2Stones) { //We assume Player1 wins if they are even
-            return board.getPlayer1();
-        } else {
-            return board.getPlayer2();
-        }
+        return (player1Stones > player2Stones) ? board.getPlayer1() : board.getPlayer2();
     }
 }

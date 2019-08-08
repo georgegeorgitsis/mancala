@@ -1,4 +1,4 @@
-package com.bol.config;
+package com.bol.configs;
 
 import org.springframework.context.annotation.Configuration;
 
