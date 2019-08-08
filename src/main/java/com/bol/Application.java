@@ -27,20 +27,21 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Board board = boardService.initBoard();
+        this.boardService.welcomeMsg();
+        Board board = this.boardService.initBoard();
 
-        while (!boardService.gameIsFinished(board)) {
+        while (!this.boardService.gameIsFinished(board)) {
             board._toString();
 
-            int selectedPitNumber = scannerService.getPlayersInput(scanner, board);
+            int selectedPitNumber = this.scannerService.getPlayersInput(this.scanner, board);
 
             try {
-                boardService.handleTurn(board, selectedPitNumber);
+                this.boardService.handleTurn(board, selectedPitNumber);
             } catch (NoStonesToMoveException e) {
                 System.out.println(e.toString());
             }
         }
 
-        boardService.printResults(board);
+        this.boardService.printResults(board);
     }
 }

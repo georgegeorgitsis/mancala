@@ -10,23 +10,27 @@ import java.util.List;
 @Service
 public class PlayerService {
 
+    private final PitService pitService;
+
     @Autowired
-    PitService pitService;
+    PlayerService(PitService pitService) {
+        this.pitService = pitService;
+    }
 
-    /**
-     * Initialising Player
-     *
-     * @return Player
-     */
-    public Player initPlayer() {
-        List<Pit> pits = pitService.initPits();
-        Player player = new Player(pits);
-
-        return player;
+    private PitService getPitService() {
+        return pitService;
     }
 
     /**
-     * @param player
+     * Initialising Player
+     */
+    public Player initPlayer() {
+        List<Pit> pits = this.getPitService().initPits();
+        return new Player(pits);
+    }
+
+    /**
+     * Summarise all player's stones
      */
     public int sumStones(Player player) {
         int stonesToBigPit = 0;
@@ -38,9 +42,7 @@ public class PlayerService {
     }
 
     /**
-     * @param player
-     * @param stonesToAdd
-     * @return
+     * Add stones to big pit
      */
     public int addStonesToBigPit(Player player, int stonesToAdd) {
         Pit bigPit = player.getBigPit();

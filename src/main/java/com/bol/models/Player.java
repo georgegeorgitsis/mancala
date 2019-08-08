@@ -10,6 +10,10 @@ public class Player {
         this.pits = pits;
     }
 
+    public void setPits(List<Pit> pits) {
+        this.pits = pits;
+    }
+
     public List<Pit> getPits() {
         return pits;
     }

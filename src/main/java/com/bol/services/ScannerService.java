@@ -11,9 +11,16 @@ import java.util.Scanner;
 @Service
 public class ScannerService {
 
-    @Autowired
-    GameConfiguration gameConfiguration;
+    private GameConfiguration gameConfiguration;
 
+    @Autowired
+    ScannerService(GameConfiguration gameConfiguration) {
+        this.gameConfiguration = gameConfiguration;
+    }
+
+    /**
+     * Get the terminal input
+     */
     public int getPlayersInput(Scanner in, Board board) {
         System.out.println(" ");
         System.out.println("Player " + board.getTurn() + " is playing");

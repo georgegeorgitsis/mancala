@@ -15,48 +15,54 @@ import java.util.stream.Stream;
 @Service
 public class BoardService {
 
-    @Autowired
-    GameConfiguration gameConfiguration;
+    private GameConfiguration gameConfiguration;
+    private PlayerService playerService;
+    private PitService pitService;
 
     @Autowired
-    PlayerService playerService;
+    BoardService(GameConfiguration gameConfiguration, PlayerService playerService, PitService pitService) {
+        this.pitService = pitService;
+        this.playerService = playerService;
+        this.gameConfiguration = gameConfiguration;
+    }
 
-    @Autowired
-    PitService pitService;
+    public void welcomeMsg() {
+        for (int i = 0; i <= 5; i++) {
+            System.out.println();
+        }
+        for (int i = 0; i <= 20; i++) {
+            System.out.print("*");
+        }
+        System.out.println();
+        System.out.println(" * Welcome to bol.com game * ");
+        for (int i = 0; i <= 20; i++) {
+            System.out.print("*");
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println("Initialising Board...");
+        System.out.println();
+    }
 
     /**
      * Initialising board
-     *
-     * @return Board
      */
     public Board initBoard() {
-        System.out.println(" * ");
-        System.out.println(" * Welcome to bol.com game * ");
-        System.out.println(" * ");
-        System.out.println("Initialising Game...");
-
-        Player player1 = playerService.initPlayer();
-        Player player2 = playerService.initPlayer();
+        Player player1 = this.playerService.initPlayer();
+        Player player2 = this.playerService.initPlayer();
 
         return new Board(player1, player2, 1);
     }
 
     /**
      * Game is finished when a player has no remaining stones
-     *
-     * @param board
-     * @return boolean
      */
     public boolean gameIsFinished(Board board) {
         return board.getPlayer1().getNumberOfRemainingStones() == 0 || board.getPlayer2().getNumberOfRemainingStones() == 0;
     }
 
     /**
-     * Moves the stones through the pits
-     *
-     * @param board
-     * @param selectedPitNumber
-     * @throws NoStonesToMoveException
+     * Handles player's turn
      */
     public void handleTurn(Board board, int selectedPitNumber) throws NoStonesToMoveException {
         Pit selectedPit = board.getTurnsPlayer().getPitPerPosition(selectedPitNumber);
@@ -64,12 +70,14 @@ public class BoardService {
         if (stonesToMove == 0) {
             throw new NoStonesToMoveException("Pit has no stones");
         }
-        pitService.emptyPit(selectedPit);
+        this.pitService.emptyPit(selectedPit); //take stones from pit
 
         List<Pit> allBoardPits = this.combineAllBoardPits(board);
 
         //player2 pits are mirrored to players1 by 6 indexes
-        int index = (board.getTurnsPlayer() == board.getPlayer2()) ? selectedPitNumber + 6 : selectedPitNumber;
+        int index = (board.getTurnsPlayer() == board.getPlayer2()) ?
+                selectedPitNumber + this.gameConfiguration.getNumberOfPits() :
+                selectedPitNumber;
         int finalPitIndex = moveStones(allBoardPits, index, stonesToMove);
 
         checkLastStone(board, finalPitIndex);
@@ -81,9 +89,6 @@ public class BoardService {
 
     /**
      * Create a temp board with all pits in order to iterate through them in case of a lot of stones
-     *
-     * @param board
-     * @return
      */
     public List<Pit> combineAllBoardPits(Board board) {
         List<Pit> player1Pits;
@@ -100,18 +105,15 @@ public class BoardService {
     }
 
     /**
-     * @param allBoardPits
-     * @param index
-     * @param stonesToMove
-     * @return
+     * Moves stones through pits
      */
     public int moveStones(List<Pit> allBoardPits, int index, int stonesToMove) {
         while (stonesToMove != 0) {
             index++;
-            if (index > 12) { //opponent's big pit is not included
+            if (index >= allBoardPits.size()) {
                 index = 0;
             }
-            pitService.addStone(allBoardPits.get(index));
+            this.pitService.addStone(allBoardPits.get(index));
 
             stonesToMove--;
         }
@@ -120,8 +122,7 @@ public class BoardService {
     }
 
     /**
-     * @param board
-     * @param finalPitIndex
+     * Checks the last stone if places on empty own pit
      */
     public void checkLastStone(Board board, int finalPitIndex) {
         List<Pit> allBoardPits = this.combineAllBoardPits(board);
@@ -134,8 +135,8 @@ public class BoardService {
 
                 //for player2 opponent's index is -6 because player's 1 big pit is missing
                 opponentsIndex = (board.getTurnsPlayer() == board.getPlayer1()) ?
-                        finalPitIndex + (gameConfiguration.getNumberOfPits() + 1) :
-                        finalPitIndex - gameConfiguration.getNumberOfPits();
+                        finalPitIndex + (this.gameConfiguration.getNumberOfPits() + 1) :
+                        finalPitIndex - this.gameConfiguration.getNumberOfPits();
 
                 handleLastStoneCapture(allBoardPits, board.getTurnsPlayer(), finalPitIndex, opponentsIndex);
             }
@@ -143,27 +144,24 @@ public class BoardService {
     }
 
     /**
-     * @param allBoardPits
-     * @param player
-     * @param finalPitIndex
-     * @param opponentsIndex
+     * Captures opponents and own stones
      */
     public void handleLastStoneCapture(List<Pit> allBoardPits, Player player, int finalPitIndex, int opponentsIndex) {
         Pit opponentsPit = allBoardPits.get(opponentsIndex);
 
         int opponentsStones = opponentsPit.getStones(); //get opponent's stones
-        pitService.addStones(player.getBigPit(), opponentsStones);
-        pitService.emptyPit(opponentsPit);
+        this.pitService.addStones(player.getBigPit(), opponentsStones);
+        this.pitService.emptyPit(opponentsPit);
 
-        pitService.addStone(player.getBigPit()); //get last stone
-        pitService.emptyPit(allBoardPits.get(finalPitIndex));
+        this.pitService.addStone(player.getBigPit()); //get last stone
+        this.pitService.emptyPit(allBoardPits.get(finalPitIndex));
     }
 
     /**
-     * @param board
+     * Printing results
      */
     public void printResults(Board board) {
-        Player winner = findWinner(board);
+        Player winner = this.findWinner(board);
         if (winner == board.getPlayer1()) {
             System.out.println("Player 1 is the winner! Congratulations buddy!");
         } else {
@@ -172,12 +170,11 @@ public class BoardService {
     }
 
     /**
-     * @param board
-     * @return
+     * Finds the winner. In case of draw, player2 is the winner cause he started second
      */
     public Player findWinner(Board board) {
-        int player1Stones = playerService.sumStones(board.getPlayer1());
-        int player2Stones = playerService.sumStones(board.getPlayer2());
+        int player1Stones = this.playerService.sumStones(board.getPlayer1());
+        int player2Stones = this.playerService.sumStones(board.getPlayer2());
 
         return (player1Stones > player2Stones) ? board.getPlayer1() : board.getPlayer2();
     }

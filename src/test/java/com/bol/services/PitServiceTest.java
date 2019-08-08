@@ -1,23 +1,29 @@
 package com.bol.services;
 
+import com.bol.configs.GameConfiguration;
 import com.bol.models.Pit;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PitServiceTest {
 
-    PitService pitService;
+    @Mock
+    private GameConfiguration gameConfiguration;
 
-    Pit pit;
+    private PitService pitService;
+
+    private Pit pit;
 
     @Before
     public void setUp() {
-        this.pitService = new PitService();
+        this.pitService = new PitService(gameConfiguration);
         this.pit = new Pit(1, 10, 1);
     }
 
@@ -26,8 +32,8 @@ public class PitServiceTest {
         List<Pit> pits = this.pitService.initPits();
         assertEquals(pits.size(), 7);
 
-        List<Pit> regularPits = new ArrayList<Pit>();
-        List<Pit> bigPits = new ArrayList<Pit>();
+        List<Pit> regularPits = new ArrayList<>();
+        List<Pit> bigPits = new ArrayList<>();
         for (Pit pit : pits) {
             if (pit.isRegular()) {
                 regularPits.add(pit);

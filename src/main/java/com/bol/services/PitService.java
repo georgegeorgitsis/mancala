@@ -11,13 +11,15 @@ import java.util.List;
 @Service
 public class PitService {
 
+    private GameConfiguration gameConfiguration;
+
     @Autowired
-    GameConfiguration gameConfiguration;
+    PitService(GameConfiguration gameConfiguration) {
+        this.gameConfiguration = gameConfiguration;
+    }
 
     /**
      * Initialising Pits
-     *
-     * @return List<Pit>
      */
     public List<Pit> initPits() {
         List pits = new ArrayList();
@@ -32,17 +34,14 @@ public class PitService {
     }
 
     /**
-     *
-     * @param pit
+     * Empty the pit
      */
     public void emptyPit(Pit pit) {
         pit.emptyStones();
     }
 
     /**
-     *
-     * @param pit
-     * @return
+     * Add 1 stone
      */
     public int addStone(Pit pit) {
         pit.addStone();
@@ -51,10 +50,7 @@ public class PitService {
     }
 
     /**
-     *
-     * @param pit
-     * @param stones
-     * @return
+     * Add stones
      */
     public int addStones(Pit pit, int stones) {
         pit.addStones(stones);
