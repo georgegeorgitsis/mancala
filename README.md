@@ -24,3 +24,9 @@ $ mvn exec:java -Dexec -Dspring.main.banner-mode=off
 ```
 $ mvn test
 ```
+
+### Improvements 
+1. Connect with DB to store boards, players and pits for asynchronous games
+2. Create REST API endpoints for joining game, moving stones etc.
+3. Create a fancy UI and connect with the API 
+4. Improve testing  
