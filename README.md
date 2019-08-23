@@ -1,4 +1,4 @@
-# The bol.com Game
+# The Mancala Game
 ---
 by: George Georgitsis (georgegeorgitsis@gmail.com)
 
@@ -6,7 +6,6 @@ by: George Georgitsis (georgegeorgitsis@gmail.com)
 
 ### Introduction
 This application is a terminal board game using `Java`. 
-It was assigned to me as a tech assessment for bol.com.
 
 
 ### Installation
