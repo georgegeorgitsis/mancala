@@ -14,7 +14,7 @@ This application is a terminal board game using `Java`.
 
 ```
 $ git clone https://github.com/georgegeorgitsis/mancala
-$ cd georgegeorgitsis
+$ cd mancala
 $ mvn compile
 $ mvn exec:java -Dexec -Dspring.main.banner-mode=off
 ```
