@@ -13,7 +13,7 @@ This application is a terminal board game using `Java`.
 #### How to run
 
 ```
-$ git clone https://gitlab.com/bolcom/georgegeorgitsis
+$ git clone https://github.com/georgegeorgitsis/mancala
 $ cd georgegeorgitsis
 $ mvn compile
 $ mvn exec:java -Dexec -Dspring.main.banner-mode=off
